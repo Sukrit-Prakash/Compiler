@@ -29,6 +29,18 @@ class Interpreter(NodeVisitor):
             return self.visit(node.left) * self.visit(node.right)
         elif node.op.type == DIV:
             return self.visit(node.left) / self.visit(node.right)
+        elif node.op.type == LT:
+            return self.visit(node.left) <  self.visit(node.right)
+        elif node.op.type == GT:
+            return self.visit(node.left) > self.visit(node.right)
+        elif node.op.type == LTE:
+            return self.visit(node.left) <= self.visit(node.right)
+        elif node.op.type == GTE:
+            return self.visit(node.left) >= self.visit(node.right)
+        elif node.op.type == EQ:
+            return self.visit(node.left) == self.visit(node.right)
+        elif node.op.type == NEQ:
+            return self.visit(node.left) != self.visit(node.right)
         
     def visit_UnaryOp(self,node):
         if node.op.type == MINUS:

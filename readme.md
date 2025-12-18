@@ -78,3 +78,7 @@ While MyLang follows the standard structure of a compiler, there are distinct di
 * [ ] Control Flow (`If/Else` statements)
 * [ ] Code Comments (`#`)
 * [ ] Function Definitions (`def`)
+
+
+
+after Finishing adding If/Else and Functions to your current Python interpreter first. Once the logic is solid, you can rewrite the backend to generate LLVM IR.

@@ -9,6 +9,14 @@ EOF     = 'EOF'
 ID  = 'ID'
 ASSIGN = 'ASSIGN'
 
+# COMPARISON OPERATIORS
+EQ = '=='
+NEQ = '!='
+LT = '<'
+GT = '>'
+LTE = '<='
+GTE = '>='
+
 
 class Token:
     def __init__(self,type,value):

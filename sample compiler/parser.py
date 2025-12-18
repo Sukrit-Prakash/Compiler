@@ -89,10 +89,21 @@ class Parser:
         self.eat(ID)
         token =self.current_token
         self.eat(ASSIGN)
-        right =self.expr()
+        # right =self.expr() to handle a = 4==5 like expressions
+        right = self.comn_expr()
+        
         return Assign(left,token,right)
         
-        
+    def comn_expr(self):
+        node = self.expr()
+        if self.current_token.type  in (EQ,NEQ,LT,LTE,GT,GTE):
+            token = self.current_token
+            self.eat(token.type)
+            #  indentation error wiht rnode
+            rnode = self.expr()
+            node = BinOp(left=node,op=token,right=rnode)
+        return node
+    
     def expr(self):
         """Parse + and - (Lower Priority)"""
         # FIXED: Call term(), not eat() directly
@@ -113,8 +124,24 @@ class Parser:
         
     def parse(self):
         # current_val = self.current_token.value
-        if self.current_token.type ==ID and self.lexer.text.find('=')!=-1:
-            print("reched here")
-            return self.assignment()
+        # if self.current_token.type ==ID and self.lexer.text.find('=')!=-1:
+        
+        # if self.current_token.type ==ID:
+        #     if self.lexer.text.find('=')!=-1 and self.lexer.text.find('==')==-1:
+        #         print("reched here")
+        #         return self.assignment()
+
+        is_assignment = False
+        if self.current_token.type ==ID:
+            if self.lexer.text.find('=')!=-1:
+                is_assignment = True
+                if self.lexer.text.find('==')!=-1:is_assignment=False
+                if self.lexer.text.find('<=')!=-1:is_assignment=False
+                if self.lexer.text.find('>=')!=-1:is_assignment=False
+                if self.lexer.text.find('!=')!=-1:is_assignment=False
         # pass
-        return self.expr()
+        # return self.expr()
+        if is_assignment:
+            return self.assignment()
+        
+        return self.comn_expr()

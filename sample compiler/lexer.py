@@ -50,6 +50,7 @@ class Lexer:
     
     def get_next_token(self):
         while self.currentch is not None:
+            
             if self.currentch.isspace():
                 self.skip_whitespace()
                 continue
@@ -60,9 +61,37 @@ class Lexer:
             if self.currentch.isalpha():
                 return self._id()
             
-            if self.currentch == '=':
+            if self.currentch == '!' and self.peek()=='=':
                 self.advance()
-                return Token(ASSIGN,'=')
+                self.advance()
+                return Token(NEQ,'!=')
+            
+            if self.currentch=='<':
+                if self.peek()=='=':
+                    self.advance()
+                    self.advance()
+                    return Token(LTE,'<=')
+                else:
+                    self.advance()
+                    return Token(LT,'<')
+            if self.currentch=='>':
+                if self.peek()=='=':
+                    self.advance()
+                    self.advance()
+                    return Token(GTE,'>=')
+                else:
+                    self.advance()
+                    return Token(GT,'>')
+            
+            
+            if self.currentch == '=':
+                if self.peek() == '=':
+                    self.advance()
+                    self.advance()
+                    return Token(EQ,'==')
+                else:
+                    self.advance()
+                    return Token(ASSIGN,'=')
             
             
             if self.currentch == '+':
